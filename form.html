@@ -2,32 +2,59 @@
 <html>
   <head>
     <style>
-      .contact-form {
+      .shifter-form {
+        max-width: 800px;
         border: 1px solid #A8A8A8;
-        max-width: 400px;
+        padding: 6px;
+        font-family: arial;
+        font-size: 14px;
       }
-      .contact-form > div {
-        display: block;
-        padding: 4px;
+      /* Shifter-form global input styles*/
+      .shifter-form input[type=text], .shifter-form textarea {
+        box-sizing: border-box;
+        background-color: #E8E8E8;
+        border: 1px solid #CCC;
+        outline: none;
+        padding: 3px;
+        transition: all 0.5s ease;
       }
-      .contact-form > div:not(:last-child) {
+      /* Global Text Input Styles */
+      .shifter-form input[type=text] {
+        width: 300px;
+      }
+      .shifter-form input[type=text]:focus, .shifter-form textarea:focus {
+        border: 1px solid transparent;
+        border-bottom: 1px solid #007FFF;
+        background-color: transparent;
+      }
+
+      .formRow{
+        padding: 4px 0px;
+      }
+      .formRow:not(:last-child) {
         border-bottom: 1px solid #CCC;
       }
-      .contact-form input[type=text] {
-        float: right;
-        width: 200px;
+      /* mobile styles */
+      @media(max-width: 600px) {
+        .shifter-form input[type=text] {
+          width: 100%;
+          display: block;
+        }
+        .shifter-form label {
+          display: block;
+        }
+        .formRow:not(:last-child) {
+          border-bottom: none;
+        }
       }
-      .formRow {
-        border-bottom: 1px solid blue;
-        padding: 4px 10px;
-      }
+
     </style>
   </head>
   <body>
     <h1>Trace</h1>
 
 
-    <div id="my-form"></div>
+    <div id="my-form" class="shifter-form"></div>
 
 
     <script src="../js/jquery.js"></script>
@@ -87,7 +114,7 @@
         // create form element with ID
         targetDiv.append('<form id=' + formModel['formName'] + '></form>');
 
-        // iterate over form model and create elements on page
+        // iterate over form model elements and create inputs on page
         for(element in formModel['elements']) {
           console.log(element);
           var elementName = element;
@@ -98,7 +125,7 @@
           if(elementType == 'textarea') {
             $('#' + formModel['formName']).append(`
               <div class='formRow'>
-                <label for=` + elementID + `>` + elementLabel + `</label>
+                <label for=` + elementID + `>` + elementLabel + `</label><br />
                 <textarea name=` + elementName + ` id=` + elementID + ` rows='5' cols='30'></textarea>
               </div>
             `);
@@ -111,6 +138,12 @@
             `);
           }
         }
+        // add submit button to form
+        $('#' + formModel['formName']).append(`
+            <div class='formRow'>
+              <input type=\'submit\' value=` + formModel['submit']['text'] + ` />
+            </div>
+        `);
       }
 
     </script>
